@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./backend   # A backend mappa helye
+    container_name: price-monitor-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/usr/src/app  # A backend mappát hozzárendeljük a konténerhez
+    depends_on:
+      - postgres
+    command: npm run start:dev
+  
+  frontend:
+    build:
+      context: ./frontend   # A frontend mappa helye
+    container_name: price-monitor-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/src/app  # A frontend mappát hozzárendeljük a konténerhez
+    command: nginx -g 'daemon off;' 
+
+  postgres:
+    image: postgres:13
+    container_name: price-monitor-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local
