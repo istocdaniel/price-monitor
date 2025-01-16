@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 @Component({
   selector: 'app-register',
@@ -26,10 +27,16 @@ import { MatInputModule } from '@angular/material/input';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  };
+
+  showMessage(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
     });
   }
 
@@ -37,10 +44,10 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.http.post('http://localhost:3000/register', this.registerForm.value).subscribe(
         (response) => {
-          console.log('Sikeres regisztráció!', response);
+          this.showMessage('Successful registration');
         },
         (error) => {
-          console.error('Hiba történt!', error);
+          this.showMessage('Email already in use');
         }
       );
     }

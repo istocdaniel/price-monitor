@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar'; // Importáljuk a MatSnackBar-t
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 
 @Component({
@@ -32,6 +32,12 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+    })
+  }
+
+  showMessage(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
     });
   }
 
@@ -39,10 +45,10 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.http.post('http://localhost:3000/login', this.loginForm.value).subscribe(
         (response) => {
-          this.snackBar.open('Successful login!', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
+          this.showMessage('Successful login');
         },
         (error) => {
-          this.snackBar.open('Invalid email or password', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+          this.showMessage('Invalid email or passwor');
         }
       );
     }
