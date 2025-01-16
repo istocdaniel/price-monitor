@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module'; // Importáljuk a UserModule-t
-import { UserService } from './user/user.service';
-import { UserController } from './user/user.controller';
 import { User } from './user/user.entity'; // Importáljuk a User entitást
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -39,3 +37,4 @@ import { AppService } from './app.service';
   providers: [AppService],
 })
 export class AppModule {}
+

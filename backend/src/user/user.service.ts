@@ -8,23 +8,13 @@ import * as bcrypt from 'bcryptjs';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>, // Itt injektáljuk a Repository-t
+    private usersRepository: Repository<User>, // A Repository<User> injektálása
   ) {}
 
-  async register(email: string, password: string): Promise<User> {
-    const userExists = await this.usersRepository.findOne({ where: { email } });
-
-    if (userExists) {
-      throw new Error('Email already exists');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = this.usersRepository.create({
-      email,
-      password: hashedPassword,
-    });
-
-    return this.usersRepository.save(user);
+  async createUser(email: string, password: string): Promise<User> {
+    const hashedPassword = await bcrypt.hash(password, 10);  // Jelszó titkosítása
+    const user = this.usersRepository.create({ email, password: hashedPassword });  // A titkosított jelszó mentése
+    await this.usersRepository.save(user);
+    return user;
   }
 }
