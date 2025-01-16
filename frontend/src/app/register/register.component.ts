@@ -31,12 +31,14 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  };
+    })
+  }
 
-  showMessage(message: string) {
+  showMessage(message: string, type: 'success' | 'error') {
+    const panelClass = type == 'success' ? 'success-snackbar' : 'error-snackbar'
     this.snackBar.open(message, 'Close', {
       duration: 3000,
+      panelClass: [panelClass]
     });
   }
 
@@ -44,10 +46,10 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.http.post('http://localhost:3000/register', this.registerForm.value).subscribe(
         (response) => {
-          this.showMessage('Successful registration');
+          this.showMessage('Successful registration', 'success');
         },
         (error) => {
-          this.showMessage('Email already in use');
+          this.showMessage('Email already in use', 'error');
         }
       );
     }

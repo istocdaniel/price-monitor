@@ -35,9 +35,11 @@ export class LoginComponent {
     })
   }
 
-  showMessage(message: string) {
+  showMessage(message: string, type: 'success' | 'error') {
+    const panelClass = type == 'success' ? 'success-snackbar' : 'error-snackbar'
     this.snackBar.open(message, 'Close', {
       duration: 3000,
+      panelClass: [panelClass]
     });
   }
 
@@ -45,10 +47,10 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.http.post('http://localhost:3000/login', this.loginForm.value).subscribe(
         (response) => {
-          this.showMessage('Successful login');
+          this.showMessage('Successful login', 'success');
         },
         (error) => {
-          this.showMessage('Invalid email or passwor');
+          this.showMessage('Invalid email or password', 'error');
         }
       );
     }
