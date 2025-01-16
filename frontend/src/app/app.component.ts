@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common'; 
+import { RouterModule } from '@angular/router'; // Ha szükséges, hogy a CommonModule-t importáld
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule] // Bármilyen modul vagy komponens, amire szükséged van
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'my-app';
 }
