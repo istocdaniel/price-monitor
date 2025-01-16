@@ -1,14 +1,19 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto'; // A DTO importálása
+import { CreateUserDto } from './dto/create-user.dto'; 
+import { LoginUserDto } from './dto/login-user.dto';
 
-@Controller()  // Base route: /users
+@Controller()  
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('register') // A végpont: POST /register
+  @Post('register') // endpoint: /register
   async register(@Body() createUserDto: CreateUserDto) {
-    // A createUserDto tartalmazza az email és password mezőket
     return this.userService.createUser(createUserDto.email, createUserDto.password);
+  }
+
+  @Post('login') // endpoint: /login
+  async login(@Body() loginUserDto: LoginUserDto) {
+    return this.userService.login(loginUserDto.email, loginUserDto.password);
   }
 }
