@@ -50,14 +50,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.http.post<LoginResponse>('http://localhost:3000/login', this.loginForm.value).subscribe(
         (response) => {
-          localStorage.setItem('access_token', response.access_token)
+          //localStorage.setItem('token', response.token)
+          console.log(localStorage.getItem('token')); // Ellenőrizd, hogy elmentődött-e
           this.showMessage('Successful login', 'success');
+          console.log('Navigating to /products');
+          this.router.navigate(['/products'])
+          //location.reload()
         },
         (error) => {
           this.showMessage('Invalid email or password', 'error');
         }
       );
-      this.router.navigate(['/products'])
     }
   }
 

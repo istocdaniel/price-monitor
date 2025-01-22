@@ -1,0 +1,9 @@
+<div class="product-list">
+    <h1>Your Products</h1>
+    <mat-card *ngFor="let product of products" class="product-card">
+      <h2>{{ product.name }}</h2>
+      <p><a [href]="product.url" target="_blank">{{ product.url }}</a></p>
+      <p>Latest Price: {{ product.latestPrice | currency }}</p>
+    </mat-card>
+  </div>
+  

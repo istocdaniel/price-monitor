@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductComponent } from './product/product.component';
-import { AuthGuard } from 'auth/auth.guard';
 
 
 export const appConfig: ApplicationConfig = {
@@ -15,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter([
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'products', component: ProductComponent, canActivate: [AuthGuard] },
+      { path: 'products', component: ProductComponent },
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: '**', redirectTo: '/login' }
     ])
