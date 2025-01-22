@@ -4,16 +4,22 @@ import { AppRoutingModule } from './app.routes'; // Hozzáadjuk a routing modult
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component'; // Login komponens
 import { RegisterComponent } from './register/register.component'; // Register komponens
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProductComponent } from './product/product.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule // Beállítjuk a routing modult
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

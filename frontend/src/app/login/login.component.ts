@@ -1,15 +1,14 @@
 import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { provideHttpClient } from '@angular/common/http';
-import { MatError } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
-
+import { Router } from '@angular/router';
+import { LoginResponse } from './login-response.interface';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +27,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient, 
+    private snackBar: MatSnackBar,
+    private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -45,14 +48,20 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.http.post('http://localhost:3000/login', this.loginForm.value).subscribe(
+      this.http.post<LoginResponse>('http://localhost:3000/login', this.loginForm.value).subscribe(
         (response) => {
+          localStorage.setItem('access_token', response.access_token)
           this.showMessage('Successful login', 'success');
         },
         (error) => {
           this.showMessage('Invalid email or password', 'error');
         }
       );
+      this.router.navigate(['/products'])
     }
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 }

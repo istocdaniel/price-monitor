@@ -1,20 +1,23 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserModule } from './user/user.module'; // Importáljuk a UserModule-t
-import { User } from './user/user.entity'; // Importáljuk a User entitást
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { UserModule } from './user/user.module'; 
+import { User } from './user/user.entity'; 
+
+import { ProductModule } from './product/product.module';
+import { Product } from './product/product.entity';
+
+
 @Module({
   imports: [
-    // A konfigurációs modult betöltjük a .env fájlhoz
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
     }),
 
-    // TypeOrm konfigurálása a .env fájlból
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,13 +28,13 @@ import { AppService } from './app.service';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [User], // Használjuk az User entitást
-        synchronize: true, // Fejlesztési környezetben használható
+        entities: [User, Product], 
+        synchronize: true, 
       }),
     }),
-
-    // Importáljuk a UserModule-t
+    TypeOrmModule.forFeature([User,Product]),
     UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

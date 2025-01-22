@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { MatError } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
-import { MatCard } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +25,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient, 
+    private snackBar: MatSnackBar,
+    private router: Router,) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -53,5 +55,9 @@ export class RegisterComponent {
         }
       );
     }
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }
