@@ -14,7 +14,7 @@ export class AppController {
 
     @Post('register')
     async register(
-        @Body('name') name: string,
+        @Body('username') username: string,
         @Body('email') email: string,
         @Body('password') password: string
     ) {
@@ -27,12 +27,12 @@ export class AppController {
         const hashedPassword = await bcrypt.hash(password, 12);
         
         const user = await this.appService.create({
-            name,
+            username,
             email,
             password: hashedPassword
         });
 
-        return { name: user.name, email: user.email };
+        return { username: user.username, email: user.email };
     }
 
 

@@ -1,33 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app.routes'; // Hozzáadjuk a routing modult
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component'; // Login komponens
-import { RegisterComponent } from './register/register.component'; // Register komponens
-import { ReactiveFormsModule } from '@angular/forms';
-import { ProductComponent } from './product/product.component';
-import { HttpClientModule } from '@angular/common/http';
-import { MatCardModule } from '@angular/material/card';
-import { ProductListComponent } from './product-list/product-list.component';
-import { FormsModule } from '@angular/forms';
+import {HttpClientModule} from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {JwtModule} from "@auth0/angular-jwt";
+
+export const LOCALSTORAGE_KEY_NESTJS_TODO_APP = 'nestjs_todo_app';
+
+export function tokenGetter() {
+  return localStorage.getItem(LOCALSTORAGE_KEY_NESTJS_TODO_APP);
+}
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    ProductComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    MatCardModule,
-    FormsModule
+    BrowserAnimationsModule,
+
+    // Angular Material Modules
+    MatSnackBarModule,
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:3000']
+      }
+    })
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  exports: [FormsModule,ReactiveFormsModule]
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
