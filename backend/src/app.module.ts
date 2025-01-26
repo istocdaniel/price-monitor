@@ -3,6 +3,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {User} from "./user.entity";
+import {Product} from "./product.entity";
 import {JwtModule} from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -20,13 +21,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             username: configService.get<string>('POSTGRES_USER'),
             password: configService.get<string>('POSTGRES_PASSWORD'),
             database: configService.get<string>('POSTGRES_DB'),
-            entities: [User],
+            entities: [User, Product], // Ensure Product entity is included here
             synchronize: true,
         }),
         inject: [ConfigService],
       }),
         
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Product]),
         JwtModule.register({
             secret: 'secret',
             signOptions: {expiresIn: '1d'}

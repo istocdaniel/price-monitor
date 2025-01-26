@@ -88,4 +88,50 @@ export class AppController {
             message: 'Successful logout'
         }
     }
+
+    @Post('add-product')
+    async addProduct(
+        @Body('name') name: string,
+        @Body('url') url: string,
+        @Req() request: Request
+    ) {
+        const cookie = request.cookies['jwt'];
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        if (!data) {
+            throw new UnauthorizedException();
+        }
+
+        const user = await this.appService.findOne({id: data['id']});
+
+        const existingProduct = await this.appService.findProductByNameOrUrl(name, url);
+
+        if (existingProduct) {
+            throw new BadRequestException('Product with the same name or URL already exists');
+        }
+
+        const product = await this.appService.createProduct({
+            name,
+            url,
+            user
+        });
+
+        return {
+            message: 'Product added successfully'
+        };
+    }
+
+    @Get('products')
+    async getProducts(@Req() request: Request) {
+        const cookie = request.cookies['jwt'];
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        if (!data) {
+            throw new UnauthorizedException();
+        }
+
+        const products = await this.appService.findProductsByUser(data['id']);
+
+        return products;
+    }
 }
