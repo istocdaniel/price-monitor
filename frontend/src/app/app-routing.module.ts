@@ -1,18 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
-    path: 'public',
-    loadChildren: () => import('./public/public.module').then(m => m.PublicModule)
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
-    path: 'private',
-    loadChildren: () => import('./private/private.module').then(m => m.PrivateModule)
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent 
   },
   {
     path: '**',
-    redirectTo: 'public',
+    redirectTo: 'login',
     pathMatch: 'full'
   }
 ];

@@ -1,0 +1,45 @@
+body {
+  background-color: rgb(19, 23, 31);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3em;
+  border: none;
+  border-radius: 5px;
+  box-shadow: none;
+  position: static; 
+  transform: none; 
+}
+
+a {
+  text-decoration: none; 
+}
+
+p {
+  font-size: 16px;
+}
+
+hgroup p {
+  padding-bottom: 1em;
+}
+
+button {
+  margin-top: 1em;
+}
+
+.snackbar-success {
+  background-color: #4caf50; /* Green background for success */
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #f44336; /* Red background for error */
+  color: white;
+}

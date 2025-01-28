@@ -1,0 +1,228 @@
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #34495e;
+  --accent-color: #27ae60;
+  --danger-color: #e74c3c;
+  --text-color: #ecf0f1;
+  --light-grey: #bdc3c7;
+  --hover-blue: #2980b9;
+  --hover-green: #1e8449;
+  --hover-red: #c0392b;
+}
+
+body, html {
+  background-color: var(--primary-color) !important;
+  color: var(--text-color) !important;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  padding: 1.25rem;
+  position: relative;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  margin: 0 auto;
+  max-width: 1200px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  margin-top: 1.25rem;
+}
+
+.logout-button {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 100px;
+  padding: 0.625rem;
+  font-size: 1em;
+  border-radius: 0.25rem;
+  background-color: var(--danger-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: var(--hover-red);
+}
+
+.add-product-button {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  border-radius: 0.25rem;
+  position: relative;
+  top: 0.3125rem;
+  left: 1.25rem;
+  width: auto;
+}
+
+.add-product-button:hover {
+  background-color: var(--hover-green);
+}
+
+.add-product-form {
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-product-form input {
+  margin-bottom: 0.625rem;
+  padding: 0.625rem;
+  font-size: 1em;
+  border-radius: 0.25rem;
+  border: 1px solid var(--light-grey);
+}
+
+.add-product-form mat-form-field {
+  margin-bottom: 0.625rem;
+}
+
+.add-product-form button {
+  background-color: var(--hover-blue);
+  color: var(--text-color);
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.add-product-form button:hover {
+  background-color: var(--hover-blue);
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.product-card {
+  border: 1px solid var(--light-grey);
+  border-radius: 0.5rem;
+  padding: 1rem 2.5rem 1rem 1rem;
+  margin: 0.5rem;
+  min-width: 200px;
+  width: auto;
+  max-width: 100%;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.delete-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: var(--danger-color);
+}
+
+.menu-bar {
+  margin-top: 1rem;
+}
+
+.menu-bar a {
+  color: var(--text-color);
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.menu-bar a:hover {
+  text-decoration: underline;
+}
+
+.sidebar {
+  width: 200px;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  height: 100%;
+  background-color: var(--secondary-color);
+  padding-top: 1rem;
+}
+
+.sidebar a {
+  display: block;
+  color: var(--text-color);
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: var(--primary-color);
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.profile-panel {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.profile-pic-large {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-info span {
+  font-weight: bold;
+}
+
+.profile-info small {
+  color: var(--light-grey);
+}
+
+.mat-menu-content {
+  padding: 0;
+}
+
+.mat-menu-item {
+  padding: 1rem;
+}
+
+.mat-menu-item:hover {
+  background-color: var(--hover-blue);
+  color: var(--text-color);
+}
+
+button.mat-icon-button:hover {
+  background-color: transparent !important;
+}
+

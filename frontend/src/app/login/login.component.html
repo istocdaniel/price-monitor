@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Preview • Pico CSS</title>
+    <meta name="description" content="A pure HTML example, without dependencies." />
+
+    <!-- Pico.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css"
+    />
+  </head>
+
+  <body>
+
+    <header class="header-container" >
+    </header>
+
+    <main class="container">
+
+      <hgroup>
+        <h1>Price Monitor</h1>
+        <p>Don't miss any price drops in the future</p>
+      </hgroup>
+
+      <section id="preview">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              aria-label="Username"
+              formControlName="username"
+              required
+            />
+            <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            aria-label="Password"
+            formControlName="password"
+            required
+            />
+            <button type="submit">Login</button>
+            <div class="grid">
+              <p>Don't have an account? <a href="/register">Register</a></p>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
