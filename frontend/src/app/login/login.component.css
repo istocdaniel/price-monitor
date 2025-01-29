@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(19, 23, 31);
+  background-color: #13171f;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,28 +18,23 @@ body {
   transform: none; 
 }
 
+h1 {
+  font-size:32px;
+}
+
+p {
+  font-size: 21px;
+}
+
 a {
   text-decoration: none; 
 }
 
-p {
-  font-size: 16px;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s;
 }
 
-hgroup p {
-  padding-bottom: 1em;
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 
-button {
-  margin-top: 1em;
-}
-
-.snackbar-success {
-  background-color: #4caf50; /* Green background for success */
-  color: white;
-}
-
-.snackbar-error {
-  background-color: #f44336; /* Red background for error */
-  color: white;
-}

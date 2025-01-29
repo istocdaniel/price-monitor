@@ -1,185 +1,183 @@
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #34495e;
-  --accent-color: #27ae60;
-  --danger-color: #e74c3c;
-  --text-color: #ecf0f1;
-  --light-grey: #bdc3c7;
-  --hover-blue: #2980b9;
-  --hover-green: #1e8449;
-  --hover-red: #c0392b;
-}
-
-body, html {
-  background-color: var(--primary-color) !important;
-  color: var(--text-color) !important;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.dashboard {
-  padding: 1.25rem;
-  position: relative;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  margin: 0 auto;
-  max-width: 1200px;
-  height: 100vh;
+body {
+  background-color: #13171f;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.mat-toolbar {
+header {
+  background-color: #0a0a0a;
+  width: 100%;
+  height: 10%;
+  z-index: 2;
+  position: fixed; /* Fix the header to the top */
+  top: 0; /* Align to the top edge */
+}
+
+.header-container {
   display: flex;
   justify-content: space-between;
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.content {
-  margin-top: 1.25rem;
-}
-
-.logout-button {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 100px;
-  padding: 0.625rem;
-  font-size: 1em;
-  border-radius: 0.25rem;
-  background-color: var(--danger-color);
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
-}
-
-.logout-button:hover {
-  background-color: var(--hover-red);
-}
-
-.add-product-button {
-  background-color: var(--accent-color);
-  color: var(--text-color);
-  border: none;
-  padding: 0.625rem 1.25rem;
-  font-size: 1em;
-  cursor: pointer;
-  margin-bottom: 1.25rem;
-  border-radius: 0.25rem;
-  position: relative;
-  top: 0.3125rem;
-  left: 1.25rem;
-  width: auto;
-}
-
-.add-product-button:hover {
-  background-color: var(--hover-green);
-}
-
-.add-product-form {
-  margin: 1.25rem 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.add-product-form input {
-  margin-bottom: 0.625rem;
-  padding: 0.625rem;
-  font-size: 1em;
-  border-radius: 0.25rem;
-  border: 1px solid var(--light-grey);
-}
-
-.add-product-form mat-form-field {
-  margin-bottom: 0.625rem;
-}
-
-.add-product-form button {
-  background-color: var(--hover-blue);
-  color: var(--text-color);
-  border: none;
-  padding: 0.625rem 1.25rem;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 0.25rem;
-}
-
-.add-product-form button:hover {
-  background-color: var(--hover-blue);
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.product-card {
-  border: 1px solid var(--light-grey);
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem 1rem 1rem;
-  margin: 0.5rem;
-  min-width: 200px;
-  width: auto;
-  max-width: 100%;
-  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
-  color: var(--primary-color);
-  position: relative;
-}
-
-.delete-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  color: var(--danger-color);
-}
-
-.menu-bar {
-  margin-top: 1rem;
-}
-
-.menu-bar a {
-  color: var(--text-color);
-  text-decoration: none;
-  margin-right: 1rem;
-}
-
-.menu-bar a:hover {
-  text-decoration: underline;
-}
-
-.sidebar {
-  width: 200px;
-  position: fixed;
-  top: 64px;
-  left: 0;
-  height: 100%;
-  background-color: var(--secondary-color);
-  padding-top: 1rem;
-}
-
-.sidebar a {
-  display: block;
-  color: var(--text-color);
+  align-items: center;
+  width: 100%;
+  height: 10%; /* Adjust height to fill the header */
   padding: 1rem;
-  text-decoration: none;
+  z-index: 1;
 }
 
-.sidebar a:hover {
-  background-color: var(--primary-color);
+.header-left {
+  display: flex;
+  gap: 1rem;
+  padding-left: 15%;
 }
 
-.profile-pic {
+.header-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push the profile image to the right */
+  margin-right: 0;
+  padding: 0; /* Add some margin to the right */
+}
+
+.main-btn {
+  width: 7.5em;
+  height: 50px;
+  font-size: 1em;
+}
+
+.secondary-btn {
+  width: 7.5em;
+  height: 50px;
+  font-size: 1em;
+  margin-left: 1rem;
+  background-color: #0a0a0a;
+  color: #334956;
+  border: none;
+}
+
+.secondary-btn:hover {
+  background-color: #131213;
+  color: #81848f;
+}
+
+.profile-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  cursor: pointer;
+  background: none; /* Ensure the background is transparent */
+}
+
+.sidebar {
+  background-color: #0a0a0a;
+  position: fixed; /* Fix the sidebar to the left side */
+  top: 0; /* Start from the top of the page */
+  left: 0; /* Align to the left edge */
+  height: 100%; /* Span the full height of the page */
+  width: 12.5%; /* Set a fixed width */
+  padding-top: 1rem;
+  z-index: 1;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0); /* Ensure sidebar is visible by default */
+}
+
+.sidebar ul {
+  list-style-type: none; /* Remove default list styling */
+  display: flex;
+  flex-direction: column; /* Ensure items are listed vertically */
+  padding-left: 10%;
+  padding-top: 30%;
+  width: 100%;
+}
+
+.sidebar li {
+  margin-bottom: 0.5rem; /* Add space between list items */
+  width: 90%;
+}
+
+.sidebar li:hover a {
+  color: white; /* Ensure the link text turns white on hover */
+}
+
+.sidebar li:hover {
+  background-color: #131213;
+}
+
+.sidebar a {
+  color: #81848f;
+  text-decoration: none;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.hamburger-menu {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.hamburger-menu div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.navbar {
+  margin-left: 12.5%;
+}
+
+footer {
+  background-color: #0a0a0a;
+  position: fixed; /* Fix the footer to the bottom */
+  bottom: 0; /* Align to the bottom edge */
+  left: 0; /* Align to the left edge */
+  width: 100%; /* Span the full width of the page */
+  padding: 1rem;
+}
+
+footer p {
+  margin-left: 12.5%;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Make sidebar full width on small screens */
+    height: auto; /* Adjust height */
+    position: fixed; /* Keep it fixed */
+    transform: translateX(-100%); /* Hide by default */
+  }
+
+  .sidebar.hidden {
+    transform: translateX(0); /* Show sidebar when not hidden */
+  }
+
+  .sidebar a {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .hamburger-menu {
+    display: block; /* Show hamburger menu on small screens */
+  }
+
+  footer p {
+    margin-left: 0; /* Reset margin */
+  }
+}
+
+.profile-pic {
+  width: 40px; /* Correct width */
+  height: 40px; /* Correct height */
+  border-radius: 50%;
+  background: none; /* Ensure the background is transparent */
   vertical-align: middle;
 }
 
@@ -187,6 +185,7 @@ body, html {
   display: flex;
   align-items: center;
   padding: 1rem;
+  background: none;
 }
 
 .profile-pic-large {

@@ -3,68 +3,64 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
+
 <body>
-  <div class="dashboard mat-elevation-z8">
-    <mat-toolbar color="primary">
-      <span>Welcome, {{ username }}!</span>
-      <span class="spacer"></span>
-      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-        <img src="assets/profile.jpg" alt="Profile" class="profile-pic">
-      </button>
-      <mat-menu #profileMenu="matMenu">
-        <div class="profile-panel">
-          <img src="assets/profile.jpg" alt="Profile" class="profile-pic-large">
-          <div class="profile-info">
-            <span>{{ username }}</span>
-            <small>{{ email }}</small>
+
+  <header class="header-container">
+    <div class="header-left">
+      <button class="main-btn">Button 1</button>
+      <button class="secondary-btn">Button 2</button>
+      <button class="secondary-btn">Button 3</button>
+    </div>
+
+    <div class="header-right">
+      <mat-toolbar color="transparent">
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+          <img src="assets/profile.jpg" alt="Profile" class="profile-pic">
+        </button>
+        <mat-menu #profileMenu="matMenu">
+          <div class="profile-panel">
+            <img src="assets/profile.jpg" alt="Profile" class="profile-pic-large">
+            <div class="profile-info">
+              <span>{{ username }}</span>
+              <small>{{ email }}</small>
+            </div>
           </div>
-        </div>
-        <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/profile">Your Profile</button>
-        <button mat-menu-item routerLink="/settings">Settings</button>
-        <button mat-menu-item (click)="logout()">Log out</button>
-      </mat-menu>
-    </mat-toolbar>
-  
-    <mat-toolbar color="accent" class="menu-bar">
-      <a mat-button routerLink="/dashboard">Dashboard</a>
-      <a mat-button routerLink="/profile">Profile</a>
-      <a mat-button routerLink="/settings">Settings</a>
-      <a mat-button (click)="logout()">Logout</a>
-    </mat-toolbar>
-  
-    <div class="sidebar">
-      <a href="/dashboard">Dashboard</a>
-      <a href="/profile">Profile</a>
-      <a href="/settings">Settings</a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item routerLink="/profile">Your Profile</button>
+          <button mat-menu-item routerLink="/settings">Settings</button>
+          <button mat-menu-item (click)="logout()">Log out</button>
+        </mat-menu>
+      </mat-toolbar>
     </div>
-  
-    <div class="content">
-      <button mat-raised-button color="accent" (click)="toggleAddProductForm()">Add Product</button>
-  
-      <div *ngIf="showAddProductForm" class="add-product-form">
-        <mat-form-field appearance="fill">
-          <mat-label>Product Name</mat-label>
-          <input matInput [(ngModel)]="newProductName">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Product URL</mat-label>
-          <input matInput [(ngModel)]="newProductUrl">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="submitProduct()">Submit</button>
-      </div>
-  
-      <div class="products">
-        <mat-card *ngFor="let product of products" class="product-card">
-          <button mat-icon-button class="delete-button" (click)="deleteProduct(product.id)">
-            <mat-icon>close</mat-icon>
-          </button>
-          <mat-card-title>{{ product.name }}</mat-card-title>
-          <mat-card-content>
-            <p>{{ product.url }}</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+
+    <div class="hamburger-menu" (click)="toggleSidebar()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-  </div>
+    <nav class="navbar">
+    </nav>
+  </header>
+
+  <main>
+    <nav class="sidebar" [class.hidden]="isSidebarHidden">
+      <ul class="sidebar-nav">
+        <li class="nav-item">
+          <a href="/dashboard" class="nav-link">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="/products" class="nav-link">Products</a>
+        </li>
+        <li class="nav-item">
+          <a href="/profile" class="nav-link">Profile</a>
+        </li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Price Monitor</p>
+  </footer>
+
 </body>

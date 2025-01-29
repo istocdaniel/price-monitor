@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
+  //encapsulation: ViewEncapsulation.None,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -35,17 +37,17 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
       this.http.post('http://localhost:3000/api/login', { username, password }, { withCredentials: true }).subscribe(response => {
-        this.snackBar.open('Successful login', 'Close', {
+        this.snackBar.open('Successful login', '', {
           duration: 3000,
           verticalPosition: 'top',
-          panelClass: ['snackbar-success']
+          panelClass: ['success-snackbar']
         });
         this.router.navigate(['/dashboard']);
       }, error => {
-        this.snackBar.open('Invalid email or password', 'Close', {
+        this.snackBar.open('Invalid username or password', '', {
           duration: 3000,
           verticalPosition: 'top',
-          panelClass: ['snackbar-error']
+          panelClass: ['error-snackbar']
         });
       });
     }

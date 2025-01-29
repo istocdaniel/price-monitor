@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   showAddProductForm: boolean = false;
   newProductName: string = '';
   newProductUrl: string = '';
+  isSidebarHidden = false;
 
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) {}
 
@@ -131,5 +132,13 @@ export class DashboardComponent implements OnInit {
         panelClass: ['snackbar-error']
       });
     });
+  }
+
+  toggleSidebar() {
+    this.isSidebarHidden = !this.isSidebarHidden;
+  }
+
+  navigateToProfile(): void {
+    this.router.navigate(['/profile']);
   }
 }

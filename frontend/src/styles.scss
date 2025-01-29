@@ -12,3 +12,17 @@ body {
   color: white !important;
 }
 
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #388e3c; /* Even darker green */
+    --mat-mdc-snack-bar-button-color: #ffffff; /* White color for the close button */
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #d32f2f; /* Even darker red */
+    --mat-mdc-snack-bar-button-color: #ffffff; /* White color for the close button */
+  }
+}
+
