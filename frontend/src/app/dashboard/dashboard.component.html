@@ -1,66 +1,21 @@
 <head>
-  <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,800,900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<div class="container">
+  <nav>
+    <h1>Price Monitor</h1>
+    <img src="/assets/profile.jpg" alt="profile-pic" id="d">
+  </nav>
+  <main>Main</main>
+  <div id="sidebar">
+    <a href="/dashboard">Overview</a>
+    <a href="/products">Products</a>
+    <a href="/alerts">Alerts</a>
+  </div>
+  <div id="content1">Content1</div>
+  <div id="content2">Content2</div>
+  <div id="content3">Content3</div>
+  <footer>Footer</footer>
+</div>
 
-  <header class="header-container">
-    <div class="header-left">
-      <button class="main-btn">Button 1</button>
-      <button class="secondary-btn">Button 2</button>
-      <button class="secondary-btn">Button 3</button>
-    </div>
-
-    <div class="header-right">
-      <mat-toolbar color="transparent">
-        <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-          <img src="assets/profile.jpg" alt="Profile" class="profile-pic">
-        </button>
-        <mat-menu #profileMenu="matMenu">
-          <div class="profile-panel">
-            <img src="assets/profile.jpg" alt="Profile" class="profile-pic-large">
-            <div class="profile-info">
-              <span>{{ username }}</span>
-              <small>{{ email }}</small>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
-          <button mat-menu-item routerLink="/profile">Your Profile</button>
-          <button mat-menu-item routerLink="/settings">Settings</button>
-          <button mat-menu-item (click)="logout()">Log out</button>
-        </mat-menu>
-      </mat-toolbar>
-    </div>
-
-    <div class="hamburger-menu" (click)="toggleSidebar()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <nav class="navbar">
-    </nav>
-  </header>
-
-  <main>
-    <nav class="sidebar" [class.hidden]="isSidebarHidden">
-      <ul class="sidebar-nav">
-        <li class="nav-item">
-          <a href="/dashboard" class="nav-link">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a href="/products" class="nav-link">Products</a>
-        </li>
-        <li class="nav-item">
-          <a href="/profile" class="nav-link">Profile</a>
-        </li>
-      </ul>
-    </nav>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Price Monitor</p>
-  </footer>
-
-</body>

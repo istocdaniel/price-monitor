@@ -18,8 +18,7 @@ export class AppController {
         @Body('email') email: string,
         @Body('password') password: string
     ) {
-
-        const existingUser = await this.appService.findOne([{email},{username}]);
+        const existingUser = await this.appService.findOne({email});
 
         if (existingUser) {
             throw new BadRequestException('Email already in use');
@@ -142,12 +141,22 @@ export class AppController {
             url
         });
 
-        return product;
+        const priceData = await this.appService.getPrice(url);
+        const price = await this.appService.setPrice(product.id, Number(priceData.price), priceData.currency);
+
+        return {product, priceData};
+    }
+
+    @Post('get-price')
+    async getPrice(
+        @Body('url') url: string
+    ) {
+        return await this.appService.getPrice(url);
     }
 
     @Post('delete-product')
     async deleteProduct(
-        @Body('id') productId: number,
+        @Body('productId') productId: number,
         @Req() request: Request
     ) {
         const cookie = request.cookies['jwt'];
@@ -164,7 +173,7 @@ export class AppController {
 
         const product = await this.appService.findProductById(productId);
 
-        if (!product) {
+        if (!product || product.user !== data['id']) {
             throw new BadRequestException('Product not found or unauthorized');
         }
 

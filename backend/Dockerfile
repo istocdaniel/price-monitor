@@ -13,9 +13,6 @@ RUN npm install
 # Forráskód másolása
 COPY . .
 
-# Készíts egy build-et (ez akkor hasznos, ha TypeScript-et használsz)
-RUN npm run build
-
 # A port beállítása, amelyen a szerver futni fog
 EXPOSE 3000
 

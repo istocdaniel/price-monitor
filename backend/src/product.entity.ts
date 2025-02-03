@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
-import {User} from './user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { User } from './user.entity';
+import { PriceHistory } from './price-history.entity';
 
 @Entity('products')
 export class Product {
@@ -14,4 +15,7 @@ export class Product {
 
     @ManyToOne(() => User, user => user.products)
     user: User;
+
+    @OneToMany(() => PriceHistory, price => price.product)
+    prices: PriceHistory[];
 }
