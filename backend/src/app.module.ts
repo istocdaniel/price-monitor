@@ -50,7 +50,12 @@ export class AppModule {
         consumer
             .apply(AuthMiddleware)
             .forRoutes(
-                { path: 'api/*path', method: RequestMethod.ALL },
+                { path: 'api/user', method: RequestMethod.ALL },
+                { path: 'api/products', method: RequestMethod.ALL },
+                { path: 'api/add-product', method: RequestMethod.ALL },
+                { path: 'api/delete-product', method: RequestMethod.ALL },
+                { path: 'api/set-threshold', method: RequestMethod.ALL },
+                { path: 'api/check-thresholds', method: RequestMethod.ALL },
                 { path: 'admin/*path', method: RequestMethod.ALL }
             );
     }

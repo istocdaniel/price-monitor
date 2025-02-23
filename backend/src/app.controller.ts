@@ -1,9 +1,8 @@
-import {BadRequestException, Body, Controller, Get, Post, Req, Res, UnauthorizedException, UseGuards} from '@nestjs/common';
+import {BadRequestException, Body, Controller, Get, Post, Req, Res, UseGuards} from '@nestjs/common';
 import {AppService} from './app.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
 import {Response, Request} from 'express';
-import {EmailService} from './email/email.service';
 import { AuthMiddleware } from './middleware/auth.middleware';
 
 @Controller('api')
@@ -11,7 +10,6 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 export class AppController {
     constructor(
         private readonly appService: AppService,
-        private readonly emailService: EmailService,
         private jwtService: JwtService
     ) {
     }
@@ -30,7 +28,7 @@ export class AppController {
 
         const hashedPassword = await bcrypt.hash(password, 12);
         
-        const user = await this.appService.create({
+        const user = await this.appService.createUser({
             username,
             email,
             password: hashedPassword
@@ -38,7 +36,6 @@ export class AppController {
 
         return { username: user.username, email: user.email };
     }
-
 
     @Post('login')
     async login(
@@ -60,7 +57,6 @@ export class AppController {
             message: 'Successful login'
         };
     }
-
 
     @Get('user')
     async user(@Req() request: Request) {

@@ -21,8 +21,13 @@ export class AppService {
     ) {
     }
 
-    async create(data: any): Promise<User> {
-        return this.userRepository.save(data);
+    async createUser(data: any): Promise<User> {
+        return this.userRepository.save({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            admin: false,
+        });
     }
 
     async findOne(condition: any): Promise<User> {

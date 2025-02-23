@@ -11,7 +11,6 @@ import { AlertHistory } from '../entities/alert-history.entity';
 export class AdminService {
     constructor(
         private jwtService: JwtService,
-        private readonly emailService: EmailService,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
         @InjectRepository(AlertHistory) private readonly alertRepository: Repository<AlertHistory>,
