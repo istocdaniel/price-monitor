@@ -1,4 +1,4 @@
-import {Injectable, BadRequestException} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "./entities/user.entity";
 import {Product} from './entities/product.entity';
@@ -7,14 +7,12 @@ import {Cron} from '@nestjs/schedule';
 import { PriceHistory } from './entities/price-history.entity';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import {JwtService} from "@nestjs/jwt";
 import { EmailService } from './email/email.service';
 import { AlertHistory } from './entities/alert-history.entity';
 
 @Injectable()
 export class AppService {
     constructor(
-        private jwtService: JwtService,
         private readonly emailService: EmailService,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
@@ -141,20 +139,6 @@ export class AppService {
     async setThreshold(productId: number, threshold: number) {
         await this.productRepository.update({ id: productId }, { threshold });
         return this.productRepository.findOne({ where: { id: productId } });
-    }
-
-    async authorizeUser(cookie: string) {
-        if (!cookie) {
-            throw new BadRequestException('Please log in');
-        }
-
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        if (!data) {
-            throw new BadRequestException('Please log in');
-        }
-
-        return data;
     }
 
     @Cron('0 0 0 * * *')

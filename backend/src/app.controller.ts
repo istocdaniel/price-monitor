@@ -1,11 +1,13 @@
-import {BadRequestException, Body, Controller, Get, Post, Req, Res, UnauthorizedException} from '@nestjs/common';
+import {BadRequestException, Body, Controller, Get, Post, Req, Res, UnauthorizedException, UseGuards} from '@nestjs/common';
 import {AppService} from './app.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
 import {Response, Request} from 'express';
 import {EmailService} from './email/email.service';
+import { AuthMiddleware } from './middleware/auth.middleware';
 
 @Controller('api')
+@UseGuards(AuthMiddleware)
 export class AppController {
     constructor(
         private readonly appService: AppService,
@@ -62,27 +64,9 @@ export class AppController {
 
     @Get('user')
     async user(@Req() request: Request) {
-        const cookie = request.cookies['jwt'];
-
-        if (!cookie) {
-            throw new UnauthorizedException('JWT token must be provided');
-        }
-
-        try {
-            const data = await this.jwtService.verifyAsync(cookie);
-
-            if (!data) {
-                throw new UnauthorizedException('Please log in');
-            }
-
-            const user = await this.appService.findOne({id: data['id']});
-
-            const {password, ...result} = user;
-
-            return result;
-        } catch (e) {
-            throw new UnauthorizedException();
-        }
+        const user = await this.appService.findOne({id: request.user['id']});
+        const {password, ...result} = user;
+        return result;
     }
 
     @Post('logout')
@@ -96,20 +80,7 @@ export class AppController {
 
     @Get('products')
     async getProducts(@Req() request: Request) {
-        const cookie = request.cookies['jwt'];
-
-        if (!cookie) {
-            throw new UnauthorizedException('JWT token must be provided');
-        }
-
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        if (!data) {
-            throw new UnauthorizedException('Please log in');
-        }
-        
-        const products = await this.appService.findProductsByUser(data['id']);
-
+        const products = await this.appService.findProductsByUser(request.user['id']);
         return products;
     }
 
@@ -119,18 +90,6 @@ export class AppController {
         @Body('url') url: string,
         @Req() request: Request
     ) {
-        const cookie = request.cookies['jwt'];
-
-        if (!cookie) {
-            throw new UnauthorizedException('JWT token must be provided');
-        }
-
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        if (!data) {
-            throw new UnauthorizedException('Please log in');
-        }
-
         const existingProduct = await this.appService.findProduct({name, url});
 
         if (existingProduct) {
@@ -138,7 +97,7 @@ export class AppController {
         }
 
         const product = await this.appService.createProduct({
-            user: data['id'],
+            user: request.user['id'],
             name,
             url
         });
@@ -161,21 +120,9 @@ export class AppController {
         @Body('productId') productId: number,
         @Req() request: Request
     ) {
-        const cookie = request.cookies['jwt'];
-
-        if (!cookie) {
-            throw new UnauthorizedException('JWT token must be provided');
-        }
-
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        if (!data) {
-            throw new UnauthorizedException('Please log in');
-        }
-
         const product = await this.appService.findProductById(productId);
 
-        if (!product || product.user !== data['id']) {
+        if (!product || product.user !== request.user['id']) {
             throw new BadRequestException('Product not found or unauthorized');
         }
 
@@ -192,18 +139,6 @@ export class AppController {
         @Body('threshold') threshold: number,
         @Req() request: Request
     ) {
-        const cookie = request.cookies['jwt'];
-
-        if (!cookie) {
-            throw new UnauthorizedException('JWT token must be provided');
-        }
-
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        if (!data) {
-            throw new UnauthorizedException('Please log in');
-        }
-
         const updatedProduct = await this.appService.setThreshold(productId, threshold);
 
         return {

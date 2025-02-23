@@ -1,12 +1,8 @@
-import {Injectable, BadRequestException, UnauthorizedException} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../entities/user.entity";
 import {Product} from '../entities/product.entity';
 import {Repository} from "typeorm";
-import {Cron} from '@nestjs/schedule';
-import { PriceHistory } from '../entities/price-history.entity';
-import axios from 'axios';
-import * as cheerio from 'cheerio';
 import {JwtService} from "@nestjs/jwt";
 import { EmailService } from '../email/email.service';
 import { AlertHistory } from '../entities/alert-history.entity';
@@ -18,7 +14,6 @@ export class AdminService {
         private readonly emailService: EmailService,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
-        @InjectRepository(PriceHistory) private readonly pricetRepository: Repository<PriceHistory>,
         @InjectRepository(AlertHistory) private readonly alertRepository: Repository<AlertHistory>,
     ) {
     }
@@ -29,7 +24,6 @@ export class AdminService {
 
     async authorizeAdmin(jwt: string) {
         const user = await this.userRepository.findOne({ where: { id: this.jwtService.decode(jwt)['id'] } });
-
         return user.admin;
     }
 

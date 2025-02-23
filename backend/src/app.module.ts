@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {Module, MiddlewareConsumer, RequestMethod} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
 import { AdminController } from './admin/admin.controller';
@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { EmailService } from './email/email.service';
 import { AdminService } from './admin/admin.service';
 import { AlertHistory } from './entities/alert-history.entity';
+import { AuthMiddleware } from './middleware/auth.middleware';
 
 @Module({
     imports: [
@@ -44,4 +45,13 @@ import { AlertHistory } from './entities/alert-history.entity';
     controllers: [AppController, AdminController],
     providers: [AppService, EmailService, AdminService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(AuthMiddleware)
+            .forRoutes(
+                { path: 'api/*path', method: RequestMethod.ALL },
+                { path: 'admin/*path', method: RequestMethod.ALL }
+            );
+    }
+}
