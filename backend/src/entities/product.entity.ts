@@ -13,6 +13,9 @@ export class Product {
     @Column()
     url: string;
 
+    @Column({ default: 0})
+    threshold: number;
+
     @ManyToOne(() => User, user => user.products)
     user: User;
 

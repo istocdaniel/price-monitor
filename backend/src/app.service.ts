@@ -1,19 +1,25 @@
 import {Injectable, BadRequestException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {User} from "./user.entity";
-import {Product} from './product.entity';
+import {User} from "./entities/user.entity";
+import {Product} from './entities/product.entity';
 import {Repository} from "typeorm";
 import {Cron} from '@nestjs/schedule';
-import { PriceHistory } from './price-history.entity';
+import { PriceHistory } from './entities/price-history.entity';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import {JwtService} from "@nestjs/jwt";
+import { EmailService } from './email/email.service';
+import { AlertHistory } from './entities/alert-history.entity';
 
 @Injectable()
 export class AppService {
     constructor(
+        private jwtService: JwtService,
+        private readonly emailService: EmailService,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
-        @InjectRepository(PriceHistory) private readonly pricetRepository: Repository<PriceHistory>
+        @InjectRepository(PriceHistory) private readonly pricetRepository: Repository<PriceHistory>,
+        @InjectRepository(AlertHistory) private readonly alertRepository: Repository<AlertHistory>
     ) {
     }
 
@@ -129,6 +135,56 @@ export class AppService {
             }
     
             await this.setPrice(product.id, Number(priceData.price), priceData.currency);
+        }
+    }
+
+    async setThreshold(productId: number, threshold: number) {
+        await this.productRepository.update({ id: productId }, { threshold });
+        return this.productRepository.findOne({ where: { id: productId } });
+    }
+
+    async authorizeUser(cookie: string) {
+        if (!cookie) {
+            throw new BadRequestException('Please log in');
+        }
+
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        if (!data) {
+            throw new BadRequestException('Please log in');
+        }
+
+        return data;
+    }
+
+    @Cron('0 0 0 * * *')
+    async checkThresholds() {
+        const products = await this.productRepository.find({ relations: ['prices', 'user'] });
+
+        for (const product of products) {
+            const latestPrice = product.prices[product.prices.length - 1];
+
+            if (latestPrice.price < product.threshold) {
+                const user = await this.userRepository.findOne({ where: { id: product.user.id } });
+
+                if (user && user.email) {
+
+                    const email_subject = 'Price Alert';
+                    const email_body = `The price of ${product.name} has dropped below the ${product.threshold} ${latestPrice.currency} threshold. Current price: ${latestPrice.price} ${latestPrice.currency}`;
+                    
+                    await this.emailService.sendMail(
+                        user.email,
+                        email_subject,
+                        email_body
+                    );
+
+                    await this.alertRepository.save({
+                        date: new Date(),
+                        email: user.email,
+                        email_body: email_body,
+                    });
+                }
+            }
         }
     }
 }

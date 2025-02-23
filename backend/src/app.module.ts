@@ -1,18 +1,23 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
+import { AdminController } from './admin/admin.controller';
 import {AppService} from './app.service';
-import {User} from "./user.entity";
-import {Product} from './product.entity';
+import {User} from "./entities/user.entity";
+import {Product} from './entities/product.entity';
 import {JwtModule} from "@nestjs/jwt";
 import {ConfigModule, ConfigService} from '@nestjs/config';
-import { PriceHistory } from './price-history.entity';
+import { PriceHistory } from './entities/price-history.entity';
 import { ScheduleModule } from '@nestjs/schedule';
+import { EmailService } from './email/email.service';
+import { AdminService } from './admin/admin.service';
+import { AlertHistory } from './entities/alert-history.entity';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true, 
+            envFilePath: '.env', 
         }),
 
         TypeOrmModule.forRootAsync({
@@ -23,21 +28,20 @@ import { ScheduleModule } from '@nestjs/schedule';
             username: configService.get<string>('POSTGRES_USER'),
             password: configService.get<string>('POSTGRES_PASSWORD'),
             database: configService.get<string>('POSTGRES_DB'),
-            entities: [User, Product, PriceHistory],
+            entities: [User, Product, PriceHistory, AlertHistory], 
             synchronize: true,
         }),
         inject: [ConfigService],
       }),
         
-        TypeOrmModule.forFeature([User,Product,PriceHistory]),
+        TypeOrmModule.forFeature([User, Product, PriceHistory, AlertHistory]),
         JwtModule.register({
             secret: 'secret',
             signOptions: {expiresIn: '1d'}
         }),
-        ScheduleModule.forRoot(), // Import ScheduleModule
+        ScheduleModule.forRoot(), 
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [AppController, AdminController],
+    providers: [AppService, EmailService, AdminService],
 })
-export class AppModule {
-}
+export class AppModule {}

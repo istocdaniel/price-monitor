@@ -3,11 +3,13 @@ import {AppService} from './app.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
 import {Response, Request} from 'express';
+import {EmailService} from './email/email.service';
 
 @Controller('api')
 export class AppController {
     constructor(
         private readonly appService: AppService,
+        private readonly emailService: EmailService,
         private jwtService: JwtService
     ) {
     }
@@ -182,5 +184,40 @@ export class AppController {
         return {
             message: 'Product deleted successfully'
         };
+    }
+
+    @Post('set-threshold')
+    async setThreshold(
+        @Body('productId') productId: number,
+        @Body('threshold') threshold: number,
+        @Req() request: Request
+    ) {
+        const cookie = request.cookies['jwt'];
+
+        if (!cookie) {
+            throw new UnauthorizedException('JWT token must be provided');
+        }
+
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        if (!data) {
+            throw new UnauthorizedException('Please log in');
+        }
+
+        const updatedProduct = await this.appService.setThreshold(productId, threshold);
+
+        return {
+            message: 'Threshold updated successfully',
+            product: updatedProduct
+        }
+    }
+
+    @Post('check-thresholds')
+    async checkThresholds() {
+        await this.appService.checkThresholds();
+
+        return {
+            message: 'Thresholds checked successfully'
+        }
     }
 }
