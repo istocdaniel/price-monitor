@@ -1,6 +1,8 @@
 :root {
-  --main-radius: 5px;
-  --main-padding: 5px;
+  --main-radius: 8px;
+  --main-padding: 8px;
+  --primary-color: #13171f;
+  --secondary-color: #1c212c;
 }
 
 body {
@@ -21,7 +23,7 @@ body {
   font-weight: 800;
   text-transform: uppercase;
   font-size: 12px;
-  color: #004d40;
+  color: #13171f;
   text-align: center;
 }
 
@@ -30,16 +32,17 @@ nav {
   grid-template-columns: 0.25fr 2fr 0.08fr;;
   grid-template-areas:
     "a b c";
-  background: #a7ffeb;
+  background: #1c212c;
   grid-area: nav;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  border-radius: 5px;
+  padding-top: 5px;
 }
 
 h1 {
   grid-area: a;
   font-size: 1.5em;
   margin: 0.5rem;
+  color: white;
 }
 
 nav img {
@@ -51,50 +54,61 @@ nav img {
 }
 
 main {
-  background: #84ffff;
+  background: #1c212c;
   grid-area: main;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  border-radius: 5px;
+  padding-top: 5px;
+  color: white;
+  font-weight: 400;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 #sidebar {
-  background: #18ffff;
+  background: #1c212c;
   grid-area: sidebar;
   border-radius: var(--main-radius);
-  padding-top: var(--main-padding);;
+  padding-top: 5px;;
 }
 
 #sidebar a {
   text-decoration: none;
-  color: black;
+  color: white;
+  font-weight: 400;
 }
 
 #content1 {
-  background: #6fffd2;
+  background: #1c212c;
   grid-area: content1;
   border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  padding-top: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
 }
 
 #content2 {
-  background: #64ffda;
+  background: #1c212c;
   grid-area: content2;
   border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  padding-top: 5px;
 }
 
 #content3 {
-  background: #73ffba;
+  background: #1c212c;
   grid-area: content3;
   border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  padding-top: 5px;
 }
 
 footer {
-  background: #1de9b6;
+  background: #1c212c;
   grid-area: footer;
   border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+  padding-top: 5px;
 }
 
 a {
@@ -104,6 +118,90 @@ a {
   text-decoration: none;
   font-weight: bold;
   margin: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+input {
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 0.05rem 0;
+  width: 35rem;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 0.05rem 0;
+  background: #017ebe;
+  color: white;
+  width: 35rem;
+}
+
+input, button {
+  box-sizing: border-box;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: var(--main-radius);
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  color: #13171f;
+  aspect-ratio: 1 / 1; /* Make the card a square */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.delete-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.delete-button:hover {
+  color: darkred;
+}
+
+.product-card h3 {
+  margin: 0;
+  font-size: 1em;
+}
+
+.product-card p {
+  margin: 0.5rem 0 0;
+  font-size: 0.8em;
+}
+
+.more-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #017ebe;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.more-link:hover {
+  text-decoration: underline;
 }
 
 @media only screen and (max-width: 550px) {

@@ -20,10 +20,11 @@ export class AppController {
         @Body('email') email: string,
         @Body('password') password: string
     ) {
-        const existingUser = await this.appService.findOne({email});
+        const existingEmail = await this.appService.findOne({email});
+        const existingUsername = await this.appService.findOne({username});
 
-        if (existingUser) {
-            throw new BadRequestException('Email already in use');
+        if (existingEmail || existingUsername) {
+            throw new BadRequestException('Email or username already in use');
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);

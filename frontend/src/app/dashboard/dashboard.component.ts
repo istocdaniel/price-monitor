@@ -50,15 +50,14 @@ export class DashboardComponent implements OnInit {
     }).subscribe(
       (response: any) => {
         if (Array.isArray(response)) {
-          this.products = response;
+          this.products = response.sort((a: any, b: any) => b.id - a.id); // Sort by ID in descending order
         } else if (response && response.products) {
-          this.products = response.products;
+          this.products = response.products.sort((a: any, b: any) => b.id - a.id); // Sort by ID in descending order
         } else {
           this.products = [];
         }
-
       },
-      (error) => {
+      (error: any) => {
         if (error.status === 401) {
           this.router.navigate(['/login']);
         }
@@ -83,42 +82,52 @@ export class DashboardComponent implements OnInit {
   }
 
   submitProduct(): void {
-    const token = localStorage.getItem('jwt');
-    
-    // Fetch the user to get the user ID
-    this.http.get('http://localhost:3000/api/user', {
-      headers: { Authorization: `jwt ${token}` },
-      withCredentials: true
-    }).subscribe(
-      (userResponse: any) => {
-        const newProduct = {
-          name: this.newProductName,
-          url: this.newProductUrl,
-          userId: userResponse.id // Ensure the user ID is correctly used
-        };
 
-        this.http.post('http://localhost:3000/api/add-product', newProduct, {
-          headers: { Authorization: `jwt ${token}` },
-          withCredentials: true
-        }).subscribe(
-          (response: any) => {
-            this.loadUserProducts(); // Reload the products from the backend
-            this.newProductName = '';
-            this.newProductUrl = '';
-            this.showAddProductForm = false;
-          },
-          (error) => {
-            this.snackBar.open('Product name or url already added', 'Close', {
-                duration: 3000,
-                panelClass: ['snackbar-error']
-              });
-          }
-        );
-      },
-      (error) => {
-        console.error('Error fetching user:', error);
-      }
-    );
+    if (this.newProductName && this.newProductUrl) {
+
+      const token = localStorage.getItem('jwt');
+      
+      // Fetch the user to get the user ID
+      this.http.get('http://localhost:3000/api/user', {
+        headers: { Authorization: `jwt ${token}` },
+        withCredentials: true
+      }).subscribe(
+        (userResponse: any) => {
+          const newProduct = {
+            name: this.newProductName,
+            url: this.newProductUrl,
+            userId: userResponse.id // Ensure the user ID is correctly used
+          };
+          console.log(this.newProductName,this.newProductUrl)
+          this.http.post('http://localhost:3000/api/add-product', newProduct, {
+            headers: { Authorization: `jwt ${token}` },
+            withCredentials: true
+          }).subscribe(
+            (response: any) => {
+              this.loadUserProducts(); // Reload the products from the backend
+              this.newProductName = '';
+              this.newProductUrl = '';
+              this.showAddProductForm = false;
+            },
+            (error) => {
+              this.snackBar.open('Product name or url already added', 'Close', {
+                  duration: 3000,
+                  panelClass: ['snackbar-error']
+                });
+            }
+          );
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
+        }
+      );
+    }
+    else {
+      this.snackBar.open('Please enter product name and url', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
+    }
   }
 
   deleteProduct(productId: number): void {
